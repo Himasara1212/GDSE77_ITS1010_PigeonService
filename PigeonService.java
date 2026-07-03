@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.function.Supplier;
 
 public class PigeonService {
     static Scanner input = new Scanner(System.in);
@@ -43,9 +44,25 @@ public class PigeonService {
         homepage();
     }
 
-    private static void homepage() {
-       System.out.println("\n+======================================================+");
-       System.out.println("|                       HOME PAGE                      |");
-       System.out.println("+======================================================+\n");
+    public static void homepage() {
+        System.out.println("\n+======================================================+");
+        System.out.println("|        WELCOME TO IJSE STOCK MANAGEMENT SYSTEM        |");
+        System.out.println("+======================================================+\n");
+
+        System.out.println("[1] Change the Credentials\t\t[2] Supplier Manage\n[3] Stock Manage\t\t\t[4] Log out\n[5] Exit the system\n");
+        System.out.print("Enter an option to continue > ");
+        byte option = input.nextByte();
+
+        switch (option) {
+            //case 1 -> changeTheCredentials();
+            //case 2 -> supplierManage();
+            //case 3 -> stockManage();
+            case 4 -> loginpage();
+            case 5 -> System.exit(0);
+            default -> {
+                System.out.println("Invalid option. Please select again!\n");
+                homepage();
+            }
+        }
     }
 }
