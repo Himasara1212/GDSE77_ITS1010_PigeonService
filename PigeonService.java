@@ -6,6 +6,9 @@ public class PigeonService {
     static String username = "danujav";
     static String password = "1234";
 
+    //SUPPLERS ARRAY
+    static String[][] suppliers = new String[0][2]; // id , name
+
     public static void main(String [] args){
         loginpage();
     }
@@ -44,7 +47,6 @@ public class PigeonService {
         homepage();
     }
 
-
     public static void homepage() {
         System.out.println("\n+======================================================+");
         System.out.println("|        WELCOME TO IJSE STOCK MANAGEMENT SYSTEM       |");
@@ -58,8 +60,8 @@ public class PigeonService {
 
         switch (option) {
             case 1 -> changeTheCredentials();
-            //case 2 -> supplierManage();
-            //case 3 -> stockManage();
+            case 2 -> supplierManage();
+            case 3 -> stockManage();
             case 4 -> loginpage();
             case 5 -> System.exit(0);
             default -> {
@@ -128,6 +130,62 @@ public class PigeonService {
         }
     }
 
+    public static void supplierManage() {
+
+        System.out.println("\n+======================================================+");
+        System.out.println("|                    SUPPLIER MANAGE                   |");
+        System.out.println("+======================================================+\n");
+
+        System.out.println("[1] Add Supplier\t\t[2] View Supplier\n[3] Update Supplier\t\t[4] Delete Supplier\n[5] Search Supplier\t\t[6] Back to Home\n");
+    
+        System.out.print("Enter an option to continue > ");
+        byte option = input.nextByte();
+
+        clearConsole();
+
+        switch (option) {
+            //case 1 -> addSupplier();
+            //case 2 -> viewSuppliers();
+            //case 3 -> updateSuppliers();
+            //case 4 -> deleteSuppliers();
+            //case 5 -> searchSuppliers();
+            case 6 -> homepage();
+            default -> {
+                System.out.println("Invalid option. Please select again.\n");
+                supplierManage();
+            }
+        }
+    }
+
+
+     public static void stockManage() {
+        System.out.println("\n+======================================================+");
+        System.out.println("|                     STOCK MANAGE                     |");
+        System.out.println("+======================================================+\n");
+
+        System.out.println("[1] Manage Item categories\t\t[2] Add Item\n[3] Get Items Supplier Wise\t\t[4] View Item\n[5] Update Item\t\t\t\t[6] Delete Item\n[7] Rank Item Per Unit Price\t\t[8] Home Page\n");
+        
+        System.out.print("Enter an option to continue > ");
+        byte option = input.nextByte();
+
+        clearConsole();
+
+        switch (option) {
+            //case 1 -> manageItemCategories();
+            //case 2 -> addItem();
+            //case 3 -> getItemsSupplierWise();
+            //case 4 -> viewItem();
+            //case 5 -> updateItem();
+            //case 6 -> deleteItem();
+            //case 7 -> rankItemPerUnitPrice();
+            case 8 -> homepage();
+            default -> {
+                System.out.println("Invalid option. Please select again.\n");
+                supplierManage();
+            }
+        }
+
+    }
 
     private final static void clearConsole() {
         final String os = System.getProperty("os.name");
