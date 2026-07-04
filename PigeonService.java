@@ -1,5 +1,4 @@
 import java.util.Scanner;
-import java.util.function.Supplier;
 
 public class PigeonService {
     static Scanner input = new Scanner(System.in);
@@ -46,7 +45,7 @@ public class PigeonService {
 
     public static void homepage() {
         System.out.println("\n+======================================================+");
-        System.out.println("|        WELCOME TO IJSE STOCK MANAGEMENT SYSTEM        |");
+        System.out.println("|        WELCOME TO IJSE STOCK MANAGEMENT SYSTEM       |");
         System.out.println("+======================================================+\n");
 
         System.out.println("[1] Change the Credentials\t\t[2] Supplier Manage\n[3] Stock Manage\t\t\t[4] Log out\n[5] Exit the system\n");
@@ -54,7 +53,7 @@ public class PigeonService {
         byte option = input.nextByte();
 
         switch (option) {
-            //case 1 -> changeTheCredentials();
+            case 1 -> changeTheCredentials();
             //case 2 -> supplierManage();
             //case 3 -> stockManage();
             case 4 -> loginpage();
@@ -64,5 +63,30 @@ public class PigeonService {
                 homepage();
             }
         }
+    }
+
+    public static void changeTheCredentials() {
+        System.out.println("\n+======================================================+");
+        System.out.println("|                   CREDENTIAL MANAGE                  |");
+        System.out.println("+======================================================+\n");
+
+        System.out.print("Please enter the user name to verify it's you: ");
+        String eName = input.next();
+
+        if(!eName.equals(username)){
+            System.out.println("Invalid user name. Try again!");
+            return;
+        }else{
+            System.out.println("Hey "+ eName);
+        }
+
+        System.out.print("Enter your current password: ");
+        String ePw = input.next();
+
+        if(!ePw.equals(password)){
+            System.out.println("Incorrect password. try again!");
+            return;
+        }
+        homepage();
     }
 }
