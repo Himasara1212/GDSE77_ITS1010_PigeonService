@@ -40,8 +40,10 @@ public class PigeonService {
                 System.out.println("Password is invalid. Please try again!\n");
             }
         }
+        clearConsole();
         homepage();
     }
+
 
     public static void homepage() {
         System.out.println("\n+======================================================+");
@@ -51,6 +53,8 @@ public class PigeonService {
         System.out.println("[1] Change the Credentials\t\t[2] Supplier Manage\n[3] Stock Manage\t\t\t[4] Log out\n[5] Exit the system\n");
         System.out.print("Enter an option to continue > ");
         byte option = input.nextByte();
+
+        clearConsole();
 
         switch (option) {
             case 1 -> changeTheCredentials();
@@ -77,16 +81,65 @@ public class PigeonService {
             System.out.println("Invalid user name. Try again!");
             return;
         }else{
-            System.out.println("Hey "+ eName);
+            System.out.println("Hey "+ eName+"\n");
+        }
+        
+        System.out.print("Do you want to change username (Y/N): ");
+        char choice = input.next().charAt(0);
+
+        if (choice == 'Y' || choice == 'y') {
+
+        System.out.print("\nEnter your new username: ");
+        String newusername = input.next();
+        username = newusername;
+
+        System.out.print("Username changed successfully! ");
         }
 
-        System.out.print("Enter your current password: ");
-        String ePw = input.next();
+        System.out.print("Do you want to Change Password (Y/N): ");
+        char change = input.next().charAt(0);
 
-        if(!ePw.equals(password)){
-            System.out.println("Incorrect password. try again!");
-            return;
+        if (change == 'Y' || change == 'y') {
+
+            System.out.print("\nEnter your current password: ");
+            String ePw = input.next();
+
+            if (!ePw.equals(password)) {
+                System.out.println("Incorrect password. Try again!");
+                return;
+            }
+
+            System.out.print("\nEnter your new password: ");
+            String newPw = input.next();
+            password = newPw;
+
+            System.out.print("Password changed successfully! ");
         }
-        homepage();
+            System.out.print("Do you want to go to home page (Y/N): ");
+            char home = input.next().charAt(0);
+        
+        clearConsole();
+            
+        if (home == 'y' || home == 'Y') {
+            homepage();
+        } else {
+            loginpage();
+            
+        }
+    }
+
+
+    private final static void clearConsole() {
+        final String os = System.getProperty("os.name");
+        try {
+            if (os.contains("Windows")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else {
+                System.out.print("\033[H\033[2J");
+                System.out.flush();
+            }
+        } catch (final Exception e) {
+            System.out.println("Could not clear screen");
+        }
     }
 }
