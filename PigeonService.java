@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class PigeonService {
@@ -24,9 +25,7 @@ public class PigeonService {
             System.out.print("User Name : ");
             name = input.nextLine();
 
-            if (name.equals(username)) {
-                System.out.println("Login is Success");
-            } else {
+            if (!name.equals(username)) {
                 System.out.println("User name is incorrect. Please try again!\n");
             }
         }
@@ -144,7 +143,7 @@ public class PigeonService {
         clearConsole();
 
         switch (option) {
-            //case 1 -> addSupplier();
+            case 1 -> addSupplier();
             //case 2 -> viewSuppliers();
             //case 3 -> updateSuppliers();
             //case 4 -> deleteSuppliers();
@@ -157,8 +156,150 @@ public class PigeonService {
         }
     }
 
+    public static void addSupplier() {        
+        System.out.println("\n+======================================================+");
+        System.out.println("|                    ADD SUPPLIER                      |");
+        System.out.println("+======================================================+\n");
 
-     public static void stockManage() {
+         System.out.print("Supplier ID: S");
+    String sId = "S" + input.next();
+
+    // Check duplicate ID
+    if (findId(suppliers, sId)) {
+        System.out.println("Supplier ID already exists. Try another Supplier ID!");
+        addSupplier();
+        return;
+    }
+
+    System.out.print("Supplier Name: ");
+    String name = input.next();
+
+    growArray();
+
+    // Add supplier
+    suppliers[suppliers.length - 1][0] = sId;
+    suppliers[suppliers.length - 1][1] = name;
+
+    System.out.println("\nSupplier Added Successfully!");
+    System.out.println(Arrays.deepToString(suppliers));
+
+    System.out.print("\nDo you want to add another supplier? (Y/N): ");
+    char choice = input.next().charAt(0);
+
+        if (choice == 'Y' || choice == 'y') {
+            clearConsole();
+            addSupplier();
+        } else {
+            clearConsole();
+            homepage();
+        }
+    }
+
+    public static void growArray() {
+        String[][] tempArray = new String[suppliers.length+1][2]; // id , name
+
+        for(int i = 0 ; i < suppliers.length; i++ ){
+            tempArray[i] = suppliers[i];
+        }
+        suppliers = tempArray;
+    }
+
+    public static boolean findId(String[][] suppliers, String id) {
+        for (int i = 0; i < suppliers.length; i++) {
+            if (suppliers[i][0] != null && suppliers[i][0].equals(id)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static void updateSupllier() {
+        System.out.println("\n+======================================================+");
+        System.out.println("|                  UPDATE SUPPLIER                    |");
+        System.out.println("+======================================================+\n");
+
+
+        if (isEmpty(suppliers) == true) {
+            System.out.print("there no suppliers");
+
+            while (true) {
+                System.out.print("Do you want to add supplier(Y/N) ? : ");
+                String yn = input.next();
+
+                if (yn.equals("Y") || yn.equals("y")) {
+                    addSupplier();
+
+                } else if (yn.equals("N") || yn.equals("n")) {
+                    supplierManage();
+
+                } else {
+                    System.out.println("Invalid input. Please enter Y or N !");
+                }
+            }
+
+        }
+
+        while (true) {
+
+            System.out.print("Supplier id     : S");
+            String sId = input.next();
+
+            if (findId(suppliers, sId) == false) {
+                System.out.println("can't find supplier id. try again!");
+                continue;
+            }
+
+            System.out.println("Suplier name    : " + supplier[userIndex][1]);
+            System.out.println("");
+
+            while (true) {
+                System.out.print("Enter the new supplier name : ");
+                String name = input.next();
+
+                if (supplier[userIndex][1].equals(name)) {
+
+                    System.out.println("Same as current name. please enter another name!");
+                    continue;
+
+                }
+
+                supplier[userIndex][1] = name;
+                break;
+
+            }
+            System.out.print("updated successfully. ");
+
+            while (true) {
+                System.out.print("Do you want update another supplier(Y/N) ? : ");
+                String yn = input.next();
+
+                if (yn.equals("Y") || yn.equals("y")) {
+
+                    updateSupllier();
+
+                } else if (yn.equals("N") || yn.equals("n")) {
+
+                    supplierManage();
+
+                } else {
+                    System.out.println("Invalid input. Please enter Y or N !");
+                }
+            }
+
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+    public static void stockManage() {
         System.out.println("\n+======================================================+");
         System.out.println("|                     STOCK MANAGE                     |");
         System.out.println("+======================================================+\n");
