@@ -135,7 +135,6 @@ public class PigeonService {
     }
 
     public static void supplierManage() {
-
         System.out.println("\n+======================================================+");
         System.out.println("|                    SUPPLIER MANAGE                   |");
         System.out.println("+======================================================+\n");
@@ -148,11 +147,11 @@ public class PigeonService {
         clearConsole();
 
         switch (option) {
-            case 1 -> addSupplier();
+            case 1 -> addSuppliers();
             case 2 -> viewSuppliers();
             case 3 -> updateSupliers();
             case 4 -> deleteSuppliers();
-            //case 5 -> searchSuppliers();
+            case 5 -> searchSuppliers();
             case 6 -> homepage();
             default -> {
                 System.out.println("Invalid option. Please select again.\n");
@@ -161,9 +160,9 @@ public class PigeonService {
         }
     }
 
-    public static void addSupplier() {        
+    public static void addSuppliers() {        
         System.out.println("\n+======================================================+");
-        System.out.println("|                    ADD SUPPLIER                      |");
+        System.out.println("|                   ADD SUPPLIERS                      |");
         System.out.println("+======================================================+\n");
 
         System.out.print("Supplier ID: S");
@@ -172,7 +171,7 @@ public class PigeonService {
         // Check duplicate ID
         if (findId(suppliers, sId)) {
             System.out.println("Supplier ID already exists. Try another Supplier ID!");
-            addSupplier();
+            addSuppliers();
             return;
         }
 
@@ -193,7 +192,7 @@ public class PigeonService {
 
         if (choice == 'Y' || choice == 'y') {
             clearConsole();
-            addSupplier();
+            addSuppliers();
         } else {
             clearConsole();
             homepage();
@@ -299,17 +298,86 @@ public class PigeonService {
         System.out.println("\n+======================================================+");
         System.out.println("|                    DELETE SUPLIERS                   |");
         System.out.println("+======================================================+\n");
+        System.out.print("Supplier ID : ");
+        String id = input.next();
 
+        boolean found = false;
+
+        for (int i = 0; i < suppliers.length; i++) {
+            if(id.equals(suppliers[i][0])) {
+                suppliers = deleteFromArray(suppliers, id);
+                System.out.println("Supplier deleted successfully! \n");
+                viewSuppliers();
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            System.out.println("Supplier Id Not Found!!");
+        }
+
+        System.out.print("Do you want to delete another supplier? (Y/N): ");
+        if (input.next().equalsIgnoreCase("Y")) {
+            input.next();
+            clearConsole();
+            deleteSuppliers();
+        } else {
+            input.next();
+            clearConsole();
+            supplierManage();
+        }
     }
 
+    private static String[][] deleteFromArray(String[][] suppliers, String id) {
+        String[][] temp = new String[suppliers.length-1][2];  //HERE DECREES THE LENGTH IN ARRAY -1
 
+        int j = 0;
+        for(int i = 0; i < suppliers.length; i++) {
+            if(!id.equals(suppliers[i][0])) {
+                //IF NOT EQUALS THERE COPY PREVIOUS DATA ON THE ARRAY
+                temp[j] = suppliers[i];
+                j++;
+            }
+        }
 
+        return temp;
+    }
 
+    public static void searchSuppliers() {
+        System.out.println("\n+======================================================+");
+        System.out.println("|                   SEARCH SUPLIERS                    |");
+        System.out.println("+======================================================+\n");
 
+        System.out.print("Supplier ID: S");
+        String id = input.next();
 
+        boolean found = false;
+        for (int i = 0; i < suppliers.length; i++) {
+            if (suppliers[i][0].equals(id)) {
+                System.out.println("Supplier ID   : " + suppliers[i][0]);
+                System.out.println("Supplier Name : " + suppliers[i][1]);
+                found = true;
+                break;
+            }
+        }
 
+        if (!found) {
+            System.out.print("can't find supplier id. try again!");
+        }
 
-
+        System.out.print("added successfully! Do you want to added another find(Y/N)? ");
+        if (input.next().equalsIgnoreCase("Y")) {
+            input.next();
+            clearConsole();
+            searchSuppliers();
+        } else {
+            input.next();
+            clearConsole();
+            supplierManage();
+            homepage();
+        }
+    }
+    
     public static void stockManage() {
         System.out.println("\n+======================================================+");
         System.out.println("|                     STOCK MANAGE                     |");
@@ -323,7 +391,6 @@ public class PigeonService {
         clearConsole();
 
         switch (option) {
-
             // case 1 -> manageItemCategories();
             // case 2 -> addItem();
             // case 3 -> getItemsSupplierWise();
