@@ -10,6 +10,11 @@ public class PigeonService {
     //SUPPLERS ARRAY
     static String[][] suppliers = new String[0][2]; // id , name
 
+    // CATEGORIES ARRAY
+    static String[][] categories = new String[0][2];
+
+    static int userIndex = 0; 
+
     public static void main(String [] args){
         loginpage();
     }
@@ -144,7 +149,7 @@ public class PigeonService {
 
         switch (option) {
             case 1 -> addSupplier();
-            //case 2 -> viewSuppliers();
+            case 2 -> viewSuppliers();
             //case 3 -> updateSuppliers();
             //case 4 -> deleteSuppliers();
             //case 5 -> searchSuppliers();
@@ -161,30 +166,30 @@ public class PigeonService {
         System.out.println("|                    ADD SUPPLIER                      |");
         System.out.println("+======================================================+\n");
 
-         System.out.print("Supplier ID: S");
-    String sId = "S" + input.next();
+        System.out.print("Supplier ID: S");
+        String sId = "S" + input.next();
 
-    // Check duplicate ID
-    if (findId(suppliers, sId)) {
-        System.out.println("Supplier ID already exists. Try another Supplier ID!");
-        addSupplier();
-        return;
-    }
+        // Check duplicate ID
+        if (findId(suppliers, sId)) {
+            System.out.println("Supplier ID already exists. Try another Supplier ID!");
+            addSupplier();
+            return;
+        }
 
-    System.out.print("Supplier Name: ");
-    String name = input.next();
+        System.out.print("Supplier Name: ");
+        String name = input.next();
 
-    growArray();
+        growArray();
 
-    // Add supplier
-    suppliers[suppliers.length - 1][0] = sId;
-    suppliers[suppliers.length - 1][1] = name;
+        // Add supplier
+        suppliers[suppliers.length - 1][0] = sId;
+        suppliers[suppliers.length - 1][1] = name;
 
-    System.out.println("\nSupplier Added Successfully!");
-    System.out.println(Arrays.deepToString(suppliers));
+        System.out.println("\nSupplier Added Successfully!");
+        System.out.println(Arrays.deepToString(suppliers));
 
-    System.out.print("\nDo you want to add another supplier? (Y/N): ");
-    char choice = input.next().charAt(0);
+        System.out.print("\nDo you want to add another supplier? (Y/N): ");
+        char choice = input.next().charAt(0);
 
         if (choice == 'Y' || choice == 'y') {
             clearConsole();
@@ -214,34 +219,13 @@ public class PigeonService {
     }
 
     public static void updateSupllier() {
+        clearConsole();
         System.out.println("\n+======================================================+");
         System.out.println("|                  UPDATE SUPPLIER                    |");
         System.out.println("+======================================================+\n");
 
-
-        if (isEmpty(suppliers) == true) {
-            System.out.print("there no suppliers");
-
             while (true) {
-                System.out.print("Do you want to add supplier(Y/N) ? : ");
-                String yn = input.next();
-
-                if (yn.equals("Y") || yn.equals("y")) {
-                    addSupplier();
-
-                } else if (yn.equals("N") || yn.equals("n")) {
-                    supplierManage();
-
-                } else {
-                    System.out.println("Invalid input. Please enter Y or N !");
-                }
-            }
-
-        }
-
-        while (true) {
-
-            System.out.print("Supplier id     : S");
+            System.out.print("Supplier id: S");
             String sId = input.next();
 
             if (findId(suppliers, sId) == false) {
@@ -249,43 +233,65 @@ public class PigeonService {
                 continue;
             }
 
-            System.out.println("Suplier name    : " + supplier[userIndex][1]);
-            System.out.println("");
-
+            System.out.println("Suplier name: " + suppliers[userIndex][1]);
+            
             while (true) {
                 System.out.print("Enter the new supplier name : ");
                 String name = input.next();
 
-                if (supplier[userIndex][1].equals(name)) {
+                if (suppliers[userIndex][1].equals(name)) {
 
                     System.out.println("Same as current name. please enter another name!");
                     continue;
 
                 }
-
-                supplier[userIndex][1] = name;
+                suppliers[userIndex][1] = name;
                 break;
-
             }
-            System.out.print("updated successfully. ");
+            System.out.print("Updated Successfully. ");
 
             while (true) {
                 System.out.print("Do you want update another supplier(Y/N) ? : ");
-                String yn = input.next();
+                String choice = input.next();
 
-                if (yn.equals("Y") || yn.equals("y")) {
-
+                if (choice.equals("Y") || choice.equals("y")) {
                     updateSupllier();
-
-                } else if (yn.equals("N") || yn.equals("n")) {
-
-                    supplierManage();
-
                 } else {
-                    System.out.println("Invalid input. Please enter Y or N !");
+                    supplierManage();
                 }
             }
+        }
+    }
+    
+    public static void viewSuppliers() {
+        clearConsole();
+        System.out.println("\n+======================================================+");
+        System.out.println("|                    VIEW SUPPLIER                     |");
+        System.out.println("+======================================================+\n");
 
+         if (suppliers.length == 0) {
+            System.out.println("No suppliers found.\n");
+        } else {    
+            // Print headings
+            System.out.println("--------------------------------------------------------------");
+            System.out.printf("%-15s %-20s\n", "SUPPLIER ID", "SUPPLIER NAME");
+            System.out.println("--------------------------------------------------------------");
+
+            // Print each supplier
+            for (int i = 0; i < suppliers.length; i++) {
+                System.out.printf("%-15s %-20s\n", suppliers[i][0], suppliers[i][1]);
+            }
+        }
+
+        System.out.print("\nDo you want to go to supplier manage page (Y/N): ");
+        if (input.next().equalsIgnoreCase("Y")) {
+            input.next();
+            clearConsole();
+            supplierManage();
+        } else {
+            input.next();
+            clearConsole();
+            homepage();
         }
     }
 
@@ -312,20 +318,45 @@ public class PigeonService {
         clearConsole();
 
         switch (option) {
-            //case 1 -> manageItemCategories();
-            //case 2 -> addItem();
-            //case 3 -> getItemsSupplierWise();
-            //case 4 -> viewItem();
-            //case 5 -> updateItem();
-            //case 6 -> deleteItem();
-            //case 7 -> rankItemPerUnitPrice();
+
+            // case 1 -> manageItemCategories();
+            // case 2 -> addItem();
+            // case 3 -> getItemsSupplierWise();
+            case 4 -> {
+                viewItem();
+                System.out.println("\nPress Enter to return to Stock Management...");
+                input.next(); // Wait for Enter
+                clearConsole();
+                stockManage(); // Go back to stock menu
+            }
+            // case 5 -> updateItem();
+            // case 6 -> deleteItem();
+            // case 7 -> rankItemPerUnitPrice();
             case 8 -> homepage();
             default -> {
                 System.out.println("Invalid option. Please select again.\n");
                 supplierManage();
             }
         }
+    }
 
+    public static void viewItem() {
+
+        System.out.println("----------------------------------------------------");
+        System.out.println("             View All Item Categories              ");
+        System.out.println("----------------------------------------------------");
+
+        if (categories == null || categories.length == 0) {
+            System.out.println("No categories found.\n");
+            return;
+        }
+
+        System.out.printf("%-15s %-20s%n","Category ID","Category Name");
+        System.out.println("------------------------------------------");
+
+        for (String[] category : categories) {
+            System.out.printf("%-15s %-20s%n",category[0],category[1]);
+        }
     }
 
     private final static void clearConsole() {
