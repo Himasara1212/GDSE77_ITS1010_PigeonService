@@ -150,8 +150,8 @@ public class PigeonService {
         switch (option) {
             case 1 -> addSupplier();
             case 2 -> viewSuppliers();
-            //case 3 -> updateSuppliers();
-            //case 4 -> deleteSuppliers();
+            case 3 -> updateSupliers();
+            case 4 -> deleteSuppliers();
             //case 5 -> searchSuppliers();
             case 6 -> homepage();
             default -> {
@@ -218,7 +218,7 @@ public class PigeonService {
         return false;
     }
 
-    public static void updateSupllier() {
+    public static void updateSupliers() {
         clearConsole();
         System.out.println("\n+======================================================+");
         System.out.println("|                  UPDATE SUPPLIER                    |");
@@ -248,14 +248,14 @@ public class PigeonService {
                 suppliers[userIndex][1] = name;
                 break;
             }
-            System.out.print("Updated Successfully. ");
+                System.out.print("Updated Successfully. ");
 
             while (true) {
                 System.out.print("Do you want update another supplier(Y/N) ? : ");
                 String choice = input.next();
 
                 if (choice.equals("Y") || choice.equals("y")) {
-                    updateSupllier();
+                    updateSupliers();
                 } else {
                     supplierManage();
                 }
@@ -295,7 +295,12 @@ public class PigeonService {
         }
     }
 
+    public static void deleteSuppliers() {
+        System.out.println("\n+======================================================+");
+        System.out.println("|                    DELETE SUPLIERS                   |");
+        System.out.println("+======================================================+\n");
 
+    }
 
 
 
