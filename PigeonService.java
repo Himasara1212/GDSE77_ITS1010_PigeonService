@@ -13,6 +13,9 @@ public class PigeonService {
     // CATEGORIES ARRAY
     static String[][] categories = new String[0][2];
 
+    // item id, name, category id, supplier id, unit price, quantity
+    static String[][] items = new String[0][6];
+
     static int userIndex = 0; 
 
     public static void main(String [] args){
@@ -391,7 +394,7 @@ public class PigeonService {
         clearConsole();
 
         switch (option) {
-            // case 1 -> manageItemCategories();
+            case 1 -> manageItemCategories();
             // case 2 -> addItem();
             // case 3 -> getItemsSupplierWise();
             case 4 -> {
@@ -411,6 +414,232 @@ public class PigeonService {
             }
         }
     }
+
+    public static void manageItemCategories() {
+
+    while (true) {
+
+        System.out.println("\n+======================================================+");
+        System.out.println("|                MANAGE ITEM CATEGORIES                |");
+        System.out.println("+======================================================+\n");
+
+        System.out.println("[1] Add New Category");
+        System.out.println("[2] View All Categories");
+        System.out.println("[3] Update Category");
+        System.out.println("[4] Delete Category");
+        System.out.println("[5] Search Category");
+        System.out.println("[6] Back to Stock Management");
+
+        System.out.print("\nEnter an option to continue > ");
+        byte option = input.nextByte();
+
+        clearConsole();
+
+        switch (option) {
+
+            case 1 -> {
+                System.out.println("\n+------------------------------------------+");
+                System.out.println("|              ADD NEW CATEGORY            |");
+                System.out.println("+------------------------------------------+\n");
+
+                System.out.print("Enter Category ID : ");
+                String id = input.next();
+
+                boolean exists = false;
+
+                for (String[] category : categories) {
+                    if (category[0].equalsIgnoreCase(id)) {
+                        exists = true;
+                        break;
+                    }
+                }
+
+                if (exists) {
+                    System.out.println("\nCategory ID already exists!");
+                } else {
+
+                    System.out.print("Enter Category Name : ");
+                    String name = input.next();
+
+                    String[][] temp = new String[categories.length + 1][2];
+
+                    for (int i = 0; i < categories.length; i++) {
+                        temp[i] = categories[i];
+                    }
+
+                    temp[temp.length - 1] = new String[]{id, name};
+
+                    categories = temp;
+
+                    System.out.println("\nCategory added successfully!");
+                }
+
+                System.out.println("\nPress Enter to continue...");
+                input.next();
+                clearConsole();
+            }
+
+            case 2 -> {
+                viewItem();
+
+                System.out.println("\nPress Enter to continue...");
+                input.next();
+                clearConsole();
+            }
+
+            case 3 -> {
+
+                System.out.println("\n+------------------------------------------+");
+                System.out.println("|              UPDATE CATEGORY             |");
+                System.out.println("+------------------------------------------+\n");
+
+                if (categories.length == 0) {
+                    System.out.println("No categories found.");
+                } else {
+
+                    System.out.print("Enter Category ID: C");
+                    String id = input.next();
+
+                    boolean found = false;
+
+                    for (String[] category : categories) {
+
+                        if (category[0].equalsIgnoreCase(id)) {
+                            System.out.println("Current Category Name : " + category[1]);
+                            System.out.print("Enter New Category Name : ");
+                            String newName = input.next();
+
+                            category[1] = newName;
+
+                            System.out.println("\nCategory updated successfully!");
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if (!found) {
+                        System.out.println("\nCategory ID not found!");
+                    }
+                }
+
+                System.out.println("\nPress Enter to continue...");
+                input.next();
+                clearConsole();
+            }
+
+
+            case 4 -> {
+
+                System.out.println("\n+------------------------------------------+");
+                System.out.println("|              DELETE CATEGORY             |");
+                System.out.println("+------------------------------------------+\n");
+
+                if (categories.length == 0) {
+                    System.out.println("No categories found.");
+                } else {
+
+                    System.out.print("Enter Category ID: C");
+                    String id = input.next();
+
+                    int index = -1;
+
+                    for (int i = 0; i < categories.length; i++) {
+                        if (categories[i][0].equalsIgnoreCase(id)) {
+                            index = i;
+                            break;
+                        }
+                    }
+
+                    if (index == -1) {
+                        System.out.println("\nCategory ID not found!");
+                    } else {
+
+                        System.out.println("Category Name : "
+                                + categories[index][1]);
+
+                        System.out.print("\nAre you sure you want to delete? (Y/N) : ");
+                        char confirm = input.next().toUpperCase().charAt(0);
+
+                        if (confirm == 'Y') {
+
+                            String[][] temp = new String[categories.length - 1][2];
+
+                            int j = 0;
+
+                            for (int i = 0; i < categories.length; i++) {
+
+                                if (i != index) {
+                                    temp[j++] = categories[i];
+                                }
+                            }
+
+                            categories = temp;
+
+                            System.out.println("\nCategory deleted successfully!");
+                        } else {
+                            System.out.println("\nDelete operation cancelled.");
+                        }
+                    }
+                }
+
+                System.out.println("\nPress Enter to continue...");
+                input.next();
+                clearConsole();
+            }
+
+
+            case 5 -> {
+
+                System.out.println("\n+------------------------------------------+");
+                System.out.println("|              SEARCH CATEGORY             |");
+                System.out.println("+------------------------------------------+\n");
+
+                System.out.print("Enter Category ID or Name : ");
+                String search = input.next();
+
+                boolean found = false;
+
+                System.out.printf("%-15s %-20s%n",
+                        "Category ID", "Category Name");
+
+                System.out.println("------------------------------------------");
+
+                for (String[] category : categories) {
+
+                    if (category[0].equalsIgnoreCase(search)
+                            || category[1].equalsIgnoreCase(search)) {
+
+                        System.out.printf("%-15s %-20s%n",
+                                category[0], category[1]);
+
+                        found = true;
+                    }
+                }
+
+                if (!found) {
+                    System.out.println("\nNo matching category found.");
+                }
+                System.out.println("\nPress Enter to continue...");
+                input.next();
+                clearConsole();
+            }
+
+
+            case 6 -> {
+                clearConsole();
+                stockManage();
+                return;
+            }
+
+            default -> {
+                System.out.println("\nInvalid option! Please try again.");
+                System.out.println("\nPress Enter to continue...");
+                input.next();
+                clearConsole();
+            }
+        }
+    }
+}
 
     public static void viewItem() {
 
