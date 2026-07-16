@@ -1,7 +1,10 @@
+package GDSE77_ITS1010_Sanduni_himasara;
+
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class PigeonService {
+public class PegionService{
+
     static Scanner input = new Scanner(System.in);
 
     static String username = "danujav";
@@ -481,7 +484,6 @@ public class PigeonService {
         System.out.println("+---------------------------------------------------------------+\n");
 
         if (items == null || items.length == 0) {
-
             System.out.println("No items found.");
             return;
         }
@@ -514,7 +516,6 @@ public class PigeonService {
         }
 
         if (!found) {
-
             System.out.println("\nNo matching item found!");
         }
     }
@@ -526,7 +527,6 @@ public class PigeonService {
         System.out.println("+---------------------------------------------------------------+\n");
 
         if (items == null || items.length == 0) {
-
             System.out.println("No items found.");
             return;
         }
@@ -537,16 +537,13 @@ public class PigeonService {
         int index = -1;
 
         for (int i = 0; i < items.length; i++) {
-
             if (items[i][0].equalsIgnoreCase(code)) {
-
                 index = i;
                 break;
             }
         }
 
         if (index == -1) {
-
             System.out.println("\nItem not found!");
             return;
         }
@@ -560,7 +557,6 @@ public class PigeonService {
         String choice = input.next();
 
         if (!choice.equalsIgnoreCase("Y")) {
-
             System.out.println("\nDelete operation cancelled.");
             return;
         }
@@ -570,9 +566,7 @@ public class PigeonService {
         int tempIndex = 0;
 
         for (int i = 0; i < items.length; i++) {
-
             if (i != index) {
-
                 temp[tempIndex] = items[i];
                 tempIndex++;
             }
@@ -601,9 +595,7 @@ public class PigeonService {
         int index = -1;
 
         for (int i = 0; i < items.length; i++) {
-
             if (items[i][0].equalsIgnoreCase(code)) {
-
                 index = i;
                 break;
             }
@@ -636,9 +628,7 @@ public class PigeonService {
             System.out.print("Enter New Unit Price: ");
 
             if (input.hasNextDouble()) {
-
                 unitPrice = input.nextDouble();
-
                 if (unitPrice > 0) {
                     break;
                 }
@@ -646,7 +636,6 @@ public class PigeonService {
                 System.out.println("Price must be greater than 0!");
 
             } else {
-
                 System.out.println("Invalid price!");
                 input.next();
             }
@@ -659,9 +648,7 @@ public class PigeonService {
             System.out.print("Enter New Quantity: ");
 
             if (input.hasNextInt()) {
-
                 quantity = input.nextInt();
-
                 if (quantity >= 0) {
                     break;
                 }
@@ -683,7 +670,6 @@ public class PigeonService {
     }
 
     public static void viewAllItems() {
-        clearConsole();
         System.out.println("+---------------------------------------------------------------+");
         System.out.println("|                           VIEW ITEMS                          |");
         System.out.println("+---------------------------------------------------------------+");
@@ -714,6 +700,11 @@ public class PigeonService {
                     item[5]
             );
         }
+        System.out.println("-------------------------------------------------------------------------------");
+    
+        System.out.println("\nPress Enter to continue...");
+        input.nextLine();
+    
     }
 
     public static void addItem() {
