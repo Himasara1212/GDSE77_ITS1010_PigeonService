@@ -701,10 +701,11 @@ public class PigeonService {
     }
 
     public static void manageItemCategories() {
+
     while (true) {
 
         System.out.println("\n+======================================================+");
-        System.out.println("|                MANAGE ITEM CATEGORIES                |");
+        System.out.println("|                MANAGE ITEM CATEGORIES               |");
         System.out.println("+======================================================+\n");
 
         System.out.println("[1] Add New Category");
@@ -720,7 +721,6 @@ public class PigeonService {
         clearConsole();
 
         switch (option) {
-
             case 1 -> {
                 System.out.println("\n+------------------------------------------+");
                 System.out.println("|              ADD NEW CATEGORY            |");
@@ -732,7 +732,9 @@ public class PigeonService {
                 boolean exists = false;
 
                 for (String[] category : categories) {
+
                     if (category[0].equalsIgnoreCase(id)) {
+
                         exists = true;
                         break;
                     }
@@ -740,36 +742,64 @@ public class PigeonService {
 
                 if (exists) {
                     System.out.println("\nCategory ID already exists!");
+
                 } else {
+                    input.nextLine();
 
                     System.out.print("Enter Category Name : ");
                     String name = input.nextLine();
 
-                    String[][] temp = new String[categories.length + 1][2];
+                    String[][] temp = new String[categories.length + 1][3];
 
                     for (int i = 0; i < categories.length; i++) {
                         temp[i] = categories[i];
                     }
 
-                    temp[temp.length - 1] = new String[]{id, name};
+                    temp[temp.length - 1] = new String[]{id, name, "Available"};
 
                     categories = temp;
 
                     System.out.println("\nCategory added successfully!");
                 }
 
-                System.out.println("\nPress Enter to continue...");
-                input.next();
+                manageItemCategories();
                 clearConsole();
             }
 
+
+           
             case 2 -> {
-                viewItemCategories();
+        System.out.println("\n+======================================================+");
+        System.out.println("|                 VIEW ALL CATEGORIES                  |");
+        System.out.println("+======================================================+\n");
 
-                System.out.println("\nPress Enter to continue...");
-                input.nextLine();
-                clearConsole();
+        if (categories.length == 0) {
+
+            System.out.println("No categories found.");
+            manageItemCategories();
+            return;
+        }
+
+        System.out.println("----------------------------------------------------------");
+
+        System.out.printf(
+                "%-15s %-20s %-15s%n",
+                "Category ID",
+                "Category Name",
+                "Status"
+        );
+
+        System.out.println("----------------------------------------------------------");
+
+        for (String[] category : categories) {
+            System.out.printf(
+                    "%-15s %-20s %-15s%n",
+                    category[0],
+                    category[1],
+                    category[2]);
+                }
             }
+        
 
             case 3 -> {
 
@@ -778,7 +808,9 @@ public class PigeonService {
                 System.out.println("+------------------------------------------+\n");
 
                 if (categories.length == 0) {
+
                     System.out.println("No categories found.");
+
                 } else {
 
                     System.out.print("Enter Category ID: C");
@@ -789,14 +821,96 @@ public class PigeonService {
                     for (String[] category : categories) {
 
                         if (category[0].equalsIgnoreCase(id)) {
-                            System.out.println("Current Category Name : " + category[1]);
-                            System.out.print("Enter New Category Name : ");
-                            String newName = input.next();
 
-                            category[1] = newName;
-
-                            System.out.println("\nCategory updated successfully!");
                             found = true;
+
+                            System.out.println("\nCurrent Category Name : "+ category[1]);
+                            System.out.println("Current Status : "+ category[2]);
+
+                            input.nextLine();
+
+                            System.out.print("\nEnter New Category Name : ");
+                            String newName = input.nextLine();
+
+                            System.out.print("Enter New Status (Available/Unavailable) : ");
+
+                            String newStatus = input.next();
+
+                            if (!newStatus.equalsIgnoreCase("Available")
+                                    && !newStatus.equalsIgnoreCase("Unavailable")) {
+
+                                System.out.println("\nInvalid status! Update cancelled.");
+
+                            } else {
+                                category[1] = newName;
+                                category[2] =
+                                        newStatus.substring(0, 1).toUpperCase()
+                                        + newStatus.substring(1).toLowerCase();
+
+                                System.out.println(
+                                        "\nCategory updated successfully!"
+                                );
+                            }
+                            break;
+                        }
+                    }
+
+                    if (!found) {
+                        System.out.println("\nCategory ID not found!");
+                    }
+                }
+                manageItemCategories();
+                clearConsole();
+            }
+
+            case 4 -> {
+
+                System.out.println("\n+------------------------------------------+");
+                System.out.println("|              DELETE CATEGORY             |");
+                System.out.println("+------------------------------------------+\n");
+
+                if (categories.length == 0) {
+
+                    System.out.println("No categories found.");
+
+                } else {
+
+                    System.out.print("Enter Category ID: C");
+                    String id = input.next();
+
+                    boolean found = false;
+
+                    for (String[] category : categories) {
+
+                        if (category[0].equalsIgnoreCase(id)) {
+
+                            found = true;
+
+                            System.out.println("\nCategory Name : "
+                                    + category[1]);
+
+                            System.out.println("Current Status : "
+                                    + category[2]);
+
+                            System.out.print(
+                                    "\nDo you want to make this category "
+                                    + "Unavailable? (Y/N) : "
+                            );
+
+                            char confirm = input.next().charAt(0);
+
+                            if (confirm == 'Y'||confirm == 'y') {
+                                category[2] = "Unavailable";
+
+                                System.out.println(
+                                        "\nCategory status changed to "
+                                        + "Unavailable successfully!"
+                                );
+
+                            } else {
+                                System.out.println("\nDelete operation cancelled."
+                                );
+                            }
                             break;
                         }
                     }
@@ -806,102 +920,62 @@ public class PigeonService {
                     }
                 }
 
-                System.out.println("\nPress Enter to continue...");
-                input.next();
-                clearConsole();
-            }
-
-
-            case 4 -> {
-
-                System.out.println("\n+------------------------------------------+");
-                System.out.println("|              DELETE CATEGORY             |");
-                System.out.println("+------------------------------------------+\n");
-
-                if (categories.length == 0) {
-                    System.out.println("No categories found.");
-                } else {
-
-                    System.out.print("Enter Category ID: C");
-                    String id = input.next();
-
-                    int index = -1;
-
-                    for (int i = 0; i < categories.length; i++) {
-                        if (categories[i][0].equalsIgnoreCase(id)) {
-                            index = i;
-                            break;
-                        }
-                    }
-
-                    if (index == -1) {
-                        System.out.println("\nCategory ID not found!");
-                    } else {
-
-                        System.out.println("Category Name : "
-                                + categories[index][1]);
-
-                        System.out.print("\nAre you sure you want to delete? (Y/N) : ");
-                        char confirm = input.next().charAt(0);
-
-                        if (confirm == 'Y') {
-
-                            String[][] temp = new String[categories.length - 1][2];
-
-                            int j = 0;
-
-                            for (int i = 0; i < categories.length; i++) {
-
-                                if (i != index) {
-                                    temp[j++] = categories[i];
-                                }
-                            }
-
-                            categories = temp;
-
-                            System.out.println("\nCategory deleted successfully!");
-                        } else {
-                            System.out.println("\nDelete operation cancelled.");
-                        }
-                    }
-                }
-
-                System.out.println("\nPress Enter to continue...");
-                input.next();
+                manageItemCategories();
                 clearConsole();
             }
 
             case 5 -> {
+
                 System.out.println("\n+------------------------------------------+");
                 System.out.println("|              SEARCH CATEGORY             |");
                 System.out.println("+------------------------------------------+\n");
+
+                input.nextLine();
 
                 System.out.print("Enter Category ID or Name : ");
                 String search = input.nextLine();
 
                 boolean found = false;
 
-                System.out.printf("%-15s %-20s%n",
-                        "Category ID", "Category Name");
+                System.out.println(
+                        "\n----------------------------------------------------------"
+                );
 
-                System.out.println("------------------------------------------");
+                System.out.printf(
+                        "%-15s %-20s %-15s%n",
+                        "Category ID",
+                        "Category Name",
+                        "Status"
+                );
+
+                System.out.println(
+                        "----------------------------------------------------------"
+                );
 
                 for (String[] category : categories) {
 
                     if (category[0].equalsIgnoreCase(search)
                             || category[1].equalsIgnoreCase(search)) {
 
-                        System.out.printf("%-15s %-20s%n",
-                                category[0], category[1]);
+                        System.out.printf(
+                                "%-15s %-20s %-15s%n",
+                                category[0],
+                                category[1],
+                                category[2]
+                        );
 
                         found = true;
                     }
                 }
 
                 if (!found) {
-                    System.out.println("\nNo matching category found.");
+
+                    System.out.println(
+                            "\nNo matching category found."
+                    );
                 }
-                input.next();
+
+                manageItemCategories();
                 clearConsole();
             }
 
@@ -913,8 +987,11 @@ public class PigeonService {
             }
 
             default -> {
-                System.out.println("\nInvalid option! Please try again.");
-                input.nextLine();
+
+                System.out.println(
+                        "\nInvalid option! Please try again."
+                );
+                manageItemCategories();
                 clearConsole();
             }
         }
